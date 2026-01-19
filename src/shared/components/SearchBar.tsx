@@ -1,4 +1,4 @@
-import { useEffect,useState, type KeyboardEvent } from "react";
+import { useEffect,useState, useRef, type KeyboardEvent } from "react";
 
 interface Props {
     placeholder?: string;
@@ -8,6 +8,12 @@ interface Props {
 export const SearchBar = ({placeholder = "Buscar", onQuery}: Props) => {
 
     const [query, setQuery] = useState("");
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    //autofocus solo una vez cuando el componente se monta
+    useEffect(() => {
+        inputRef.current?.focus();
+    },[]);
 
     useEffect(() => {
         const timeoutId = setTimeout (() => {
@@ -35,6 +41,7 @@ export const SearchBar = ({placeholder = "Buscar", onQuery}: Props) => {
     return (
         <div>
             <input 
+            ref={inputRef}
             type="text"
             placeholder={placeholder}
             value= {query}
