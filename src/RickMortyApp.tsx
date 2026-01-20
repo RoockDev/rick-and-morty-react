@@ -6,6 +6,8 @@ import { CharacterDetail } from './rickmorty/components/CharacterDetail';
 import { CharacterList } from './rickmorty/components/CharacterList';
 import { StatusFilter } from './rickmorty/components/StatusFilter';
 import { LoadMoreButton } from './rickmorty/components/LoadMoreButton';
+import { CustomHeader } from './rickmorty/components/CustomHeader';
+
 
 
 export const RickMortyApp = () => {
@@ -19,8 +21,11 @@ export const RickMortyApp = () => {
 
 
   return (
-    <div>
-      <h1>Rick and Morty</h1>
+    <>
+      <CustomHeader
+      title="Rick and Morty"
+      description="Busca Personajes de Rick and Morty"
+      />
 
     <SearchBar
     placeholder="Buscar Personaje"
@@ -50,10 +55,9 @@ export const RickMortyApp = () => {
      <LoadMoreButton
      disabled={isLoading || !hasNextPage}
      onClick={() => loadNextPage()}
-     
      />
 
 
-    </div>
+    </>
   );
 };
