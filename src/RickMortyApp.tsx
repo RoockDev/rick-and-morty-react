@@ -1,63 +1,47 @@
-import { useCharacters } from './rickmorty/hooks/useCharacters';
-import { useState } from 'react';
-import { SearchBar } from './shared/components/SearchBar';
-import type {Character} from './rickmorty/interfaces/character.interface';
-import { CharacterDetail } from './rickmorty/components/CharacterDetail';
-import { CharacterList } from './rickmorty/components/CharacterList';
-import { StatusFilter } from './rickmorty/components/StatusFilter';
-import { LoadMoreButton } from './rickmorty/components/LoadMoreButton';
-import { CustomHeader } from './rickmorty/components/CustomHeader';
-
-
+import { useCharacters } from "./rickmorty/hooks/useCharacters";
+import { useRickMortyApp } from './rickmorty/hooks/useRickMortyApp';
+import { SearchBar } from "./shared/components/SearchBar";
+import { CharacterDetail } from "./rickmorty/components/CharacterDetail";
+import { CharacterList } from "./rickmorty/components/CharacterList";
+import { StatusFilter } from "./rickmorty/components/StatusFilter";
+import { LoadMoreButton } from "./rickmorty/components/LoadMoreButton";
+import { CustomHeader } from "./rickmorty/components/CustomHeader";
 
 export const RickMortyApp = () => {
-
-    const [searchText, setSearchText] = useState('');
-    const [status, setStatus] = useState('');
-    //punto 5  personaje seleccionado se guarda en estado para que permanezca visible aunque cambie búsqueda o filtro se re rendirza como no cambia de estado pues es el mismo
-    const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
-    const { isLoading, hasError, characters, hasNextPage, loadNextPage } = useCharacters(searchText,status);
-
-
+  
+  const {searchText,status,selectedCharacter,handleSearch,handleStatusChange,handleCharacterSelected} = useRickMortyApp();
+  const { isLoading, hasError, characters, hasNextPage, loadNextPage } =
+    useCharacters(searchText, status);
 
   return (
     <>
       <CustomHeader
-      title="Rick and Morty"
-      description="Busca Personajes de Rick and Morty"
+        title="Rick and Morty"
+        description="Busca Personajes de Rick and Morty"
       />
 
-    <SearchBar
-    placeholder="Buscar Personaje"
-    onQuery={ (query) => setSearchText(query)}
-    />
+      <SearchBar
+        placeholder="Buscar Personaje"
+        onQuery={handleSearch}
+      />
 
-    <StatusFilter
-    value={status}
-    onChange={(value) => setStatus(value)}
-    />
+      <StatusFilter value={status} onChange={handleStatusChange} />
 
-        {selectedCharacter && (
-          <CharacterDetail character={selectedCharacter}/>
-        )}
+      {selectedCharacter && <CharacterDetail character={selectedCharacter} />}
 
+      {isLoading && <p>Cargando...</p>}
 
-
-      { isLoading && <p>Cargando...</p> }
-
-      { hasError && <p>{ hasError }</p> }
+      {hasError && <p>{hasError}</p>}
 
       <CharacterList
         characters={characters}
-        onCharacterSelected={(character) => setSelectedCharacter(character)}
+        onCharacterSelected={handleCharacterSelected}
       />
 
-     <LoadMoreButton
-     disabled={isLoading || !hasNextPage}
-     onClick={() => loadNextPage()}
-     />
-
-
+      <LoadMoreButton
+        disabled={isLoading || !hasNextPage}
+        onClick={() => loadNextPage()}
+      />
     </>
   );
 };
