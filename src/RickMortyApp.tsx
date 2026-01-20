@@ -3,14 +3,18 @@ import { useState } from 'react';
 import { SearchBar } from './shared/components/SearchBar';
 import type {Character} from './rickmorty/interfaces/character.interface';
 import { CharacterDetail } from './rickmorty/components/CharacterDetail';
+import { CharacterList } from './rickmorty/components/CharacterList';
+import { StatusFilter } from './rickmorty/components/StatusFilter';
+import { LoadMoreButton } from './rickmorty/components/LoadMoreButton';
 
 
 export const RickMortyApp = () => {
 
     const [searchText, setSearchText] = useState('');
     const [status, setStatus] = useState('');
+    //punto 5  personaje seleccionado se guarda en estado para que permanezca visible aunque cambie búsqueda o filtro se re rendirza como no cambia de estado pues es el mismo
     const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
-    const { isLoading, hasError, characters } = useCharacters(searchText,status);
+    const { isLoading, hasError, characters, hasNextPage, loadNextPage } = useCharacters(searchText,status);
 
 
 
@@ -23,16 +27,10 @@ export const RickMortyApp = () => {
     onQuery={ (query) => setSearchText(query)}
     />
 
-    <select
-    value= {status}
-    onChange= {(event) => setStatus(event.target.value)}
-    >
-        <option value="">All</option>
-        <option value="alive">Alive</option>
-        <option value="dead">Dead</option>
-        <option value="unknown">Unkown</option>
-
-    </select>
+    <StatusFilter
+    value={status}
+    onChange={(value) => setStatus(value)}
+    />
 
         {selectedCharacter && (
           <CharacterDetail character={selectedCharacter}/>
@@ -44,17 +42,16 @@ export const RickMortyApp = () => {
 
       { hasError && <p>{ hasError }</p> }
 
-       <ul>
-        { characters.map( ( character ) => (
-          <li
-            key={ character.id }
-            onClick={ () => setSelectedCharacter( character ) }
-            style={{ cursor: 'pointer' }}
-          >
-            { character.name } - { character.id }
-          </li>
-        ) ) }
-      </ul>
+      <CharacterList
+        characters={characters}
+        onCharacterSelected={(character) => setSelectedCharacter(character)}
+      />
+
+     <LoadMoreButton
+     disabled={isLoading || !hasNextPage}
+     onClick={() => loadNextPage()}
+     
+     />
 
 
     </div>
