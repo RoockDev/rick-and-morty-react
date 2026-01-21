@@ -1,0 +1,68 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`RickMortyApp > should render RickMortyApp component 1`] = `
+<div>
+  <div
+    class="app"
+  >
+    <div
+      class="header"
+    >
+      <h1>
+        Rick and Morty
+      </h1>
+      <p>
+        Busca Personajes de Rick and Morty
+      </p>
+    </div>
+    <div
+      class="controls"
+    >
+      <div>
+        <input
+          placeholder="Buscar Personaje"
+          type="text"
+          value=""
+        />
+        <button>
+          Buscar
+        </button>
+      </div>
+      <select>
+        <option
+          value=""
+        >
+          All
+        </option>
+        <option
+          value="alive"
+        >
+          Alive
+        </option>
+        <option
+          value="dead"
+        >
+          Dead
+        </option>
+        <option
+          value="unknown"
+        >
+          Unknown
+        </option>
+      </select>
+    </div>
+    <div
+      class="grid"
+    />
+    <div
+      class="load-more"
+    >
+      <button
+        disabled=""
+      >
+        Cargar más
+      </button>
+    </div>
+  </div>
+</div>
+`;

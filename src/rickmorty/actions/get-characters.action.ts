@@ -3,8 +3,7 @@ import type {Character} from '../interfaces/character.interface';
 import type { RickMortyResponse } from "../interfaces/rrickmorty.response";
 
 export const getCharacters = async (page = 1, name = '', status = ''):Promise<Character[]> => {
-    //Record<K, V> es un tipo de TypeScript para decir:
-    //“tengo un objeto cuyas claves son de tipo K y cuyos valores son de tipo V”.
+   
     const params: Record<string,string> = {page: `${page}`};
     if( name ) params.name = name;
     if (status) params.status = status;
